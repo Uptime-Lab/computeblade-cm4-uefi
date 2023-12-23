@@ -10,3 +10,6 @@
 	path = edk2-non-osi
 	url = https://github.com/tianocore/edk2-non-osi.git
 	branch = master
+[submodule "rpi-firmware"]
+	path = rpi-firmware
+	url = https://github.com/raspberrypi/firmware.git

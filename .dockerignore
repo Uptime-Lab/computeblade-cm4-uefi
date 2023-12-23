@@ -1,0 +1,9 @@
+Dockerfile
+License.txt
+Readme.md
+Makefile
+.github/
+.git/
+dist
+dist.zip
+out/

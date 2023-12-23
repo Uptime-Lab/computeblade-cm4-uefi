@@ -8,5 +8,12 @@ disable_commandline_tags=1
 disable_overscan=1
 device_tree_address=0x1f0000
 device_tree_end=0x200000
+device_tree=bcm2711-rpi-cm4.dtb
 dtoverlay=miniuart-bt
-dtoverlay=upstream-pi4
+dtoverlay=uart5
+dtoverlay=dwc2,dr_mode=host
+dtoverlay=vc4-kms-v3d-pi4
+dtparam=spi=on
+dtparam=i2c_arm=on
+dtoverlay=tpm-slb9670
+dtoverlay=i2c-rtc,ds3231
