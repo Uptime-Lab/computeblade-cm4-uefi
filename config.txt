@@ -14,6 +14,7 @@ dtoverlay=uart5
 dtoverlay=dwc2,dr_mode=host
 dtoverlay=vc4-kms-v3d-pi4
 dtparam=spi=on
-dtparam=i2c_arm=on
 dtoverlay=tpm-slb9670
+dtparam=i2c_arm=on
 dtoverlay=i2c-rtc,ds3231
+dtparam=sd=off

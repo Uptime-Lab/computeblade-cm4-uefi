@@ -4,6 +4,7 @@ Readme.md
 Makefile
 .github/
 .git/
+.git*
 dist
 dist.zip
 out/

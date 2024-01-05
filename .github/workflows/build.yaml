@@ -1,0 +1,31 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+
+jobs:
+  release:
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build
+        run: make dist
+      - uses: sigstore/gh-action-sigstore-python@v2.1.1
+        with:
+          inputs: dist.zip
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist.zip*
+          file_glob: true
+          tag: ${{ github.ref }}
+          overwrite: true

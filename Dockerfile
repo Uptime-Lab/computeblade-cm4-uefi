@@ -1,7 +1,5 @@
 FROM ubuntu:22.04 AS builder
 
-ARG VERSION=dev
-ENV VERSION=${VERSION}
 
 RUN apt-get update && apt-get install -y \
         build-essential \
@@ -19,7 +17,11 @@ COPY . .
 
 RUN patch --binary -d edk2 -p1 -i ../0001-MdeModulePkg-UefiBootManagerLib-Signal-ReadyToBoot-o.patch
 RUN patch --binary -d edk2-platforms -p1 -i ../0002-Check-for-Boot-Discovery-Policy-change.patch
+RUN patch --binary -d edk2-platforms -p1 -i ../0003-No3GbMemLimit.patch
+RUN patch --binary -d edk2-platforms -p1 -i ../0004-systemtable-devicetree.patch
 
+ARG VERSION=dev
+ENV VERSION=${VERSION}
 ENV WORKSPACE=/build
 ENV PACKAGES_PATH=$WORKSPACE/edk2:$WORKSPACE/edk2-platforms:$WORKSPACE/edk2-non-osi
 ENV GCC5_AARCH64_PREFIX=aarch64-linux-gnu-
