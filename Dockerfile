@@ -15,7 +15,6 @@ WORKDIR /build
 # Setup sourcecode
 COPY . .
 
-RUN patch --binary -d edk2 -p1 -i ../0001-MdeModulePkg-UefiBootManagerLib-Signal-ReadyToBoot-o.patch
 RUN patch --binary -d edk2-platforms -p1 -i ../0002-Check-for-Boot-Discovery-Policy-change.patch
 RUN patch --binary -d edk2-platforms -p1 -i ../0003-No3GbMemLimit.patch
 RUN patch --binary -d edk2-platforms -p1 -i ../0004-systemtable-devicetree.patch
