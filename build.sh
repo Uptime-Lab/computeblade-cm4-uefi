@@ -29,5 +29,3 @@ build -a AARCH64 -t GCC5 -b RELEASE \
     --pcd gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVendor=L"${PROJECT_URL}" \
     --pcd gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVersionString=L"UEFI Firmware ${VERSION}" \
     ${BUILD_FLAGS} ${DEFAULT_KEYS}
-
-cp Build/RPi4/RELEASE_GCC5/FV/RPI_EFI.fd .

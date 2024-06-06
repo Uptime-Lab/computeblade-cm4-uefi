@@ -21,12 +21,15 @@ jobs:
         run: make dist
       - uses: sigstore/gh-action-sigstore-python@v2.1.1
         with:
-          inputs: dist.zip
+          inputs: out/uefi.zip
+      - uses: sigstore/gh-action-sigstore-python@v2.1.1
+        with:
+          inputs: out/sdcard.img
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: dist.zip*
+          file: out/*
           file_glob: true
           tag: ${{ github.ref }}
           overwrite: true

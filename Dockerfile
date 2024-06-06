@@ -29,5 +29,37 @@ RUN bash build.sh
 
 
 # Final artifact output
-FROM scratch
-COPY --from=builder /build/Build/RPi4/RELEASE_GCC5/FV/RPI_EFI.fd /RPI_EFI.fd
+FROM scratch as dist
+WORKDIR /
+COPY --from=builder /build/Build/RPi4/RELEASE_GCC5/FV/RPI_EFI.fd .
+COPY --from=builder /build/rpi-firmware/boot/fixup4.dat .
+COPY --from=builder /build/rpi-firmware/boot/start4.elf .
+COPY --from=builder /build/rpi-firmware/boot/bcm2711-rpi-4-b.dtb .
+COPY --from=builder /build/rpi-firmware/boot/bcm2711-rpi-cm4.dtb .
+COPY --from=builder /build/rpi-firmware/boot/bcm2711-rpi-400.dtb .
+COPY --from=builder /build/rpi-firmware/boot/overlays overlays
+COPY --from=builder /build/firmware firmware
+COPY  config.txt .
+
+
+FROM ubuntu:22.04 AS image-build
+RUN apt-get update && apt-get install -y \
+    dosfstools \
+    mtools \
+    zip
+
+WORKDIR /sdcard/files
+COPY --from=dist / /sdcard/files
+
+WORKDIR /sdcard
+
+RUN fallocate -l 64M sdcard.img && \
+    mkfs.vfat -F 32 sdcard.img && \
+    mcopy -i sdcard.img files/* :: && \
+    mdir -i sdcard.img ::
+
+RUN zip -r uefi.zip files/*
+
+FROM scratch as image
+COPY --from=image-build /sdcard/sdcard.img .
+COPY --from=image-build /sdcard/uefi.zip .
